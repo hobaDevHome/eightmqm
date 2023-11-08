@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useState } from "react";
 import logo from "./logo.svg";
 import "./App.css";
@@ -27,10 +28,8 @@ function App() {
   const [currentAudio, setcurrentAudio] = useState(0);
   const [index, setindex] = useState(0);
   let currentlyPlayingAudio = null;
-
-  useEffect(() => {
-    // setcurrentindex(index)
-  }, [index]);
+  let audioPath;
+  let random;
 
   const getSound = (i) => {
     if (i === 0) return agam;
@@ -44,34 +43,104 @@ function App() {
   };
 
   const playFile = () => {
-    const random = Math.floor(Math.random() * mq.length);
+    setshow(false);
+    random = Math.floor(Math.random() * mq.length);
     setindex(random);
 
-    let audioPath;
-    audioPath = `../public/sounds/${mq[index]}.mp3`;
-    console.log("path", audioPath);
+    audioPath = `../public/sounds/${mq[random]}.mp3`;
+
+    console.log("index", random);
+    console.log("mq[index]", mq[random]);
+    console.log("getSound", getSound(random));
+    console.log("getSound", getSound(random));
+    console.log("audioPath", audioPath);
 
     stopFile();
 
-    const audio = new Audio(getSound(index));
+    const audio = new Audio(getSound(random));
     setcurrentAudio(audio);
-    console.log("play", currentAudio);
     audio.play();
   };
 
   const stopFile = () => {
     console.log("stop", currentlyPlayingAudio);
     if (currentAudio) {
+      setshow(false);
       currentAudio.pause();
     }
   };
-  // console.log("index", index);
+
   return (
-    <div className="App">
-      <button onClick={playFile}>paly</button>
-      <button onClick={stopFile}>stop</button>
-      <button onClick={() => setshow(!show)}>reveal</button>
-      {show && <p>maqam: {mq[index]}</p>}
+    <div
+      className="App"
+      style={{
+        backgroundColor: "gray",
+        maxWidth: 1200,
+        margin: "20px auto",
+        display: "flex",
+        flexDirection: "column",
+        padding: 20,
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <button
+        onClick={playFile}
+        style={{
+          width: "20%",
+          height: 50,
+          cursor: "pointer",
+          color: "blueviolet",
+          fontWeight: "bold",
+          fontSize: 20,
+          margin: 20,
+        }}
+      >
+        paly
+      </button>
+      <button
+        style={{
+          width: "20%",
+          height: 50,
+          cursor: "pointer",
+          color: "blueviolet",
+          fontWeight: "bold",
+          fontSize: 20,
+          margin: 20,
+        }}
+        onClick={stopFile}
+      >
+        stop
+      </button>
+      <button
+        style={{
+          width: "20%",
+          height: 50,
+          cursor: "pointer",
+          color: "blueviolet",
+          fontWeight: "bold",
+          fontSize: 20,
+          margin: 20,
+        }}
+        onClick={() => setshow(!show)}
+      >
+        reveal
+      </button>
+      {show && (
+        <p
+          style={{
+            width: "20%",
+            height: 50,
+            cursor: "pointer",
+            color: "white",
+            fontWeight: "bold",
+            fontSize: 30,
+            margin: 20,
+          }}
+        >
+          maqam: {mq[index]}
+        </p>
+      )}
     </div>
   );
 }
