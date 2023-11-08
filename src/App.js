@@ -46,18 +46,16 @@ function App() {
     setshow(false);
     random = Math.floor(Math.random() * mq.length);
     setindex(random);
-
-    audioPath = `../public/sounds/${mq[random]}.mp3`;
-
-    console.log("index", random);
-    console.log("mq[index]", mq[random]);
-    console.log("getSound", getSound(random));
-    console.log("getSound", getSound(random));
-    console.log("audioPath", audioPath);
-
     stopFile();
-
     const audio = new Audio(getSound(random));
+    setcurrentAudio(audio);
+    audio.play();
+  };
+
+  const replayFile = () => {
+    setshow(false);
+    stopFile();
+    const audio = new Audio(getSound(index));
     setcurrentAudio(audio);
     audio.play();
   };
@@ -97,6 +95,20 @@ function App() {
         }}
       >
         paly
+      </button>
+      <button
+        onClick={replayFile}
+        style={{
+          width: "20%",
+          height: 50,
+          cursor: "pointer",
+          color: "blueviolet",
+          fontWeight: "bold",
+          fontSize: 20,
+          margin: 20,
+        }}
+      >
+        Re-paly
       </button>
       <button
         style={{
